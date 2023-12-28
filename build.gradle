@@ -23,15 +23,53 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jooq'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.5'
-	implementation group: 'org.jooq', name: 'jooq-codegen', version: '3.11.12'
-	implementation 'org.jooq:jooq-codegen:3.11.12'
+	implementation 'org.jooq:jooq-codegen'
 	compileOnly 'org.projectlombok:lombok'
-	compile 'org.jooq:jooq:3.11.12'
+	compile 'org.jooq:jooq'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	jooqRuntime 'org.mariadb.jdbc:mariadb-java-client:2.7.5'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jooq {
+	version = '3.13.1'
+	edition = 'OSS'
+	sample(sourceSets.main) {
+		jdbc {
+			driver = 'org.mariadb.jdbc.Driver'
+			url = 'jdbc:mariadb://127.0.0.1:3306/rs-parking-node?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;autoReconnectForPools=true'
+			user = 'root'
+			password = '1234'
+			schema = 'rs-parking-node'
+		}
+		generator {
+			name = 'org.jooq.codegen.DefaultGenerator'
+			strategy {
+				name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+			}
+			database {
+				name = 'org.jooq.meta.mariadb.MariaDBDatabase'
+			}
+			generate {
+				deprecated = false
+				records = true
+			}
+			target {
+				packageName = 'org.jooq'
+				directory = 'src/main/generated'
+				encoding = 'UTF-8'
+			}
+		}
+	}
+}
+//codegen manually
+compileJava.dependsOn.remove("generateSampleJooqSchemaSource")
+
+task codegen {
+	dependsOn generateSampleJooqSchemaSource
 }
