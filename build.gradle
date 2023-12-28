@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.1.9.RELEASE'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'nu.studer.jooq' version '4.2'		// java 8, gradle 5.6.4와 호환되는 버전
 }
 
 group = 'com.example'
@@ -21,10 +22,14 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jooq'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.5'
+	implementation group: 'org.jooq', name: 'jooq-codegen', version: '3.11.12'
+	implementation 'org.jooq:jooq-codegen:3.11.12'
 	compileOnly 'org.projectlombok:lombok'
+	compile 'org.jooq:jooq:3.11.12'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.5'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 }
 
 tasks.named('test') {
