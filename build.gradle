@@ -56,8 +56,8 @@ jooq {
 				records = true
 			}
 			target {
-				packageName = 'org.jooq'
-				directory = 'src/main/generated'
+				packageName = 'generated.org.jooq'
+				directory = 'src/main/java'
 				encoding = 'UTF-8'
 			}
 		}
