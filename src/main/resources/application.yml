@@ -8,4 +8,4 @@ spring:
     sql-dialect: mariadb
 
 server:
-  prot: 8082
+  port: 8082
