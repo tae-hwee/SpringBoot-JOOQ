@@ -32,10 +32,6 @@ dependencies {
 	jooqRuntime 'org.mariadb.jdbc:mariadb-java-client:2.7.5'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
-
 jooq {
 	version = '3.13.1'
 	edition = 'OSS'
@@ -67,9 +63,13 @@ jooq {
 		}
 	}
 }
-//codegen manually
+
 compileJava.dependsOn.remove("generateSampleJooqSchemaSource")
 
 task codegen {
 	dependsOn generateSampleJooqSchemaSource
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
 }
