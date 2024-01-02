@@ -15,7 +15,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row2;
+import org.jooq.Row3;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -31,7 +31,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Author extends TableImpl<AuthorRecord> {
 
-    private static final long serialVersionUID = 1841540622;
+    private static final long serialVersionUID = -1018731836;
 
     /**
      * The reference instance of <code>rs-parking-node.author</code>
@@ -55,6 +55,11 @@ public class Author extends TableImpl<AuthorRecord> {
      * The column <code>rs-parking-node.author.authorName</code>.
      */
     public final TableField<AuthorRecord, String> AUTHORNAME = createField(DSL.name("authorName"), org.jooq.impl.SQLDataType.VARCHAR(50).nullable(false), this, "");
+
+    /**
+     * The column <code>rs-parking-node.author.penName</code>.
+     */
+    public final TableField<AuthorRecord, String> PENNAME = createField(DSL.name("penName"), org.jooq.impl.SQLDataType.VARCHAR(50).defaultValue(org.jooq.impl.DSL.field("NULL", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
      * Create a <code>rs-parking-node.author</code> table reference
@@ -131,11 +136,11 @@ public class Author extends TableImpl<AuthorRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row2 type methods
+    // Row3 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row2<Long, String> fieldsRow() {
-        return (Row2) super.fieldsRow();
+    public Row3<Long, String, String> fieldsRow() {
+        return (Row3) super.fieldsRow();
     }
 }
