@@ -50,12 +50,6 @@ jooq {
 			}
 			database {
 				name = 'org.jooq.meta.mariadb.MariaDBDatabase'
-				properties {
-					property {
-						key = "dialect"
-						value = "MARIADB"
-					}
-				}
 			}
 			generate {
 				deprecated = false
