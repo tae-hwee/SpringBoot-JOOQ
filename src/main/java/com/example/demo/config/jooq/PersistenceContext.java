@@ -6,10 +6,12 @@ import org.jooq.impl.DefaultConfiguration;
 import org.jooq.impl.DefaultDSLContext;
 import org.jooq.impl.DefaultExecuteListenerProvider;
 import org.mariadb.jdbc.MariaDbDataSource;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -20,23 +22,20 @@ import java.sql.SQLException;
 @Configuration
 @ComponentScan({"generated.org.jooq.tables"})
 @EnableTransactionManagement
+@PropertySource("classpath:application.yml")
 public class PersistenceContext {
 	private final String SQL_DIALECT_NAME = "MARIADB";
 
-	@Value("${spring.datasource.url}")
-	String dbUrl;
-	@Value("${spring.datasource.username}")
-	String dbUser;
-	@Value("${spring.datasource.password}")
-	String dbPassword;
+	@Autowired
+	Environment environment;
 
 	@Bean
 	public DataSource dataSource() throws SQLException {
 		MariaDbDataSource dataSource = new MariaDbDataSource();
 
-		dataSource.setUrl(dbUrl);
-		dataSource.setUser(dbUser);
-		dataSource.setPassword(dbPassword);
+		dataSource.setUrl(environment.getRequiredProperty("spring.datasource.url"));
+		dataSource.setUser(environment.getRequiredProperty("spring.datasource.username"));
+		dataSource.setPassword(environment.getRequiredProperty("spring.datasource.password"));
 
 		return dataSource;
 	}
